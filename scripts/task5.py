@@ -115,14 +115,16 @@ for i,age_group in enumerate(age_group_corpus):
            else:
                 age_group_list[i][word] += 1 
 
-count=0
-for sent in age_group_list:
-    for word in sent:
-        count += 1
+age_group_length = []
+for i in age_group_list:
+    count=0
+    for word in i:
+        count += i[word]
+    age_group_length.append(count)
 
-for sent in age_group_list:
-    for word in sent:
-        sent[word] /= count
+for j,i in enumerate(age_group_list):
+    for word in i:
+        i[word] /= age_group_length[j]
         
 for i,j in enumerate(age_group_list):
     age_group_list[i] = dict(sorted(j.items(), key=itemgetter(1), reverse=True))

@@ -119,10 +119,18 @@ for sent in texts:
             else:
                 dictlist[len(word)-1][word] += 1
 
-#Convert occurances to frequencies
+#Calculate total number of word occurances within each word length group
+word_length_lengths = []
 for i in dictlist:
+    count = 0 
     for word in i:
-        i[word] /= totalcount
+        count += i[word]
+    word_length_lengths.append(count)
+    
+#Convert occurances to frequencies
+for j,i in enumerate(dictlist):
+    for word in i:
+        i[word] /= word_length_lengths[j]
 
 #Reorder data so that highest frequency takes the 0-th index lists for ranks and frequencies
 for i,j in enumerate(dictlist):
@@ -133,7 +141,7 @@ for i,j in enumerate(dictlist):
         frequencylist.append(j[word])
     #Plot the frequency vs. rank log-log plot for word length categories (words with length 1 ignored by default)
     if i>0:
-        plt.scatter(ranks, frequencylist, label = "word lenght {}".format(i+1))
+        plt.plot(ranks, frequencylist, label = "word lenght {}".format(i+1))
 plt.yscale('log')
 plt.xscale('log')
 plt.xlabel('Word Rank')
